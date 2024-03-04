@@ -47,6 +47,115 @@ export class AppService {
 
   //#endregion
 
+  //#region recursion - 재귀
+
+  /**
+   * @alias 코딩연습10 : power
+   * @description 밑과 지수를 받아들이는 power라는 함수를 작성합니다. 이 함수는 밑의 거듭제곱을 지수로 반환해야 합니다.
+   * 이 함수는 `Math.pow()`의 기능을 모방해야 합니다. `Math.pow()`함수는`base^exponent`처럼 `base` 에 `exponent`를 제곱한 값을 반환합니다.
+   */
+  //@Timeout(1000)
+  power(num1 = 2, num2 = 4) {
+    console.log(`Calling power(${num1}, ${num2})`);
+    // 지수가 0이면 1을 반환
+    if (num2 === 0) {
+      console.log(`Returning 1`);
+      return 1;
+    }
+    // 지수가 음수일 경우 양수로 바꿔주고 함수 재귀 호출
+    if (num2 < 0) {
+      console.log(`Recursively calling power(${1 / num1}, ${-num2})`);
+      const result = this.power(1 / num1, -num2);
+      console.log(`Returning ${result}`);
+      return result;
+    }
+    // 지수가 양수일 경우
+    console.log(`Recursively calling power(${num1}, ${num2 - 1})`);
+    const result = num1 * this.power(num1, num2 - 1);
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  /**
+   * @alias 코딩연습11 : factorial
+   * @description 숫자를 받아 해당 숫자의 계승(팩토리얼)을 반환하는 팩토리얼 함수를 작성하시오.
+   * 팩토리얼은 정수와 그 아래의 모든 정수의 곱입니다. 예를 들어, 4 팩토리얼 (4!)은 4 * 3 * 2 * 1 = 2입니다. 팩토리얼 0(0!)은 항상 1입니다.
+   */
+  //@Timeout(1000)
+  factorial(num = 5) {
+    console.log(`Calculating factorial(${num})`);
+    // 입력이 0이면 1을 반환
+    if (num === 0) {
+      console.log(`Base case reached. Returning 1`);
+      return 1;
+    }
+    // 재귀적으로 자기 자신보다 1 작은 숫자의 팩토리얼에 현재 숫자를 곱한 값을 반환
+    console.log(`Recursively calculating factorial(${num - 1})`);
+    const result = num * this.factorial(num - 1);
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  /**
+   * @alias 코딩연습12 : productOfArray
+   * @description 숫자 배열을 받아 모든 숫자의 곱을 반환하는 productOfArray라는 함수를 작성하시오.
+   */
+  //@Timeout(1000)
+  productOfArray(arr = [1, 2, 3, 4]) {
+    console.log(`Calculating productOfArray(${arr})`);
+    // 배열의 길이가 0이면 1을 반환
+    if (arr.length === 0) {
+      console.log(`Base case reached. Returning 1`);
+      return 1;
+    }
+    // 배열의 첫 번째 요소를 제외한 나머지 배열의 곱을 재귀적으로 계산
+    console.log(`Recursively calculating productOfArray(${arr.slice(1)})`);
+    const result = arr[0] * this.productOfArray(arr.slice(1));
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  /**
+   * @alias 코딩연습13 : recursiveRange
+   * @description 숫자를 받으면 0부터 함수에 전달된 숫자까지의 모든 숫자를 더하는 recursiveRange라는 함수를 작성하시오.
+   */
+  //@Timeout(1000)
+  recursiveRange(num = 5) {
+    console.log(`Calculating recursiveRange(${num})`);
+    // 숫자가 0 이하이면 0을 반환
+    if (num <= 0) {
+      console.log(`Base case reached. Returning 0`);
+      return 0;
+    }
+    // 재귀적으로 숫자를 하나씩 줄여가면서 더하기
+    console.log(`Recursively calculating recursiveRange(${num - 1})`);
+    const result = num + this.recursiveRange(num - 1);
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  /**
+   * @alias 코딩연습14 : fib
+   * @description 숫자를 받아 피보나치 수열의 n번째 숫자를 반환하는 fib라는 재귀 함수를 작성하시오. 피보나치 수열은 1, 1로 시작하는 1, 1, 2, 3, 5, 8, ...의 정수의 수열이며, 모든 수는 이전 두 수의 합과 같다는 것을 명심하세요.
+   * 수학에서 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다. 처음 여섯 항은 각각 1, 1, 2, 3, 5, 8이다. 편의상 0번째 항을 0으로 두기도 한다.
+   */
+  @Timeout(1000)
+  fib(n = 6) {
+    console.log(`Calculating fib(${n})`);
+    // n이 1 이하이면 n을 반환
+    if (n <= 1) {
+      console.log(`Base case reached. Returning ${n}`);
+      return n;
+    }
+    // n번째 피보나치 수를 재귀적으로 계산하여 반환
+    console.log(`Recursively calculating fib(${n - 1}) + fib(${n - 2})`);
+    const result = this.fib(n - 1) + this.fib(n - 2);
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  //#endregion
+
   //#region sort
   //@Timeout(1000)
   sort(arr = [23, 45, 6, 12, 13]) {
@@ -140,7 +249,7 @@ export class AppService {
    * 이러한 접근 방식은 대개 문제의 크기가 작거나 입력이 제한적인 경우에 효율적입니다.
    * 그러나 입력의 크기가 커지면 Naive 알고리즘은 비효율적이며 느려질 수 있습니다.
    */
-  @Timeout(1000)
+  //@Timeout(1000)
   naiveSearch(arr = [1, 2, 3, 4, 5], target = 3) {
     for (let i = 0; i < arr.length; i++) {
       if (arr[i] === target) {
@@ -151,7 +260,7 @@ export class AppService {
     return -1; // 값을 찾지 못한 경우 -1을 반환
   }
 
-  @Timeout(1000)
+  //@Timeout(1000)
   naiveStringSearch(str = 'ababababc', pattern = 'ab') {
     let count = 0;
     for (let i = 0; i <= str.length - pattern.length; i++) {
