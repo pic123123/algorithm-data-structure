@@ -79,7 +79,7 @@ export class AppService {
     return str1.length - str2.length;
   }
 
-  @Timeout(1000)
+  //@Timeout(1000)
   bublleSort(arr = [8, 1, 2, 3, 4, 5, 6, 7]) {
     let noSwaps;
     for (let index = arr.length; index > 0; index--) {
@@ -100,5 +100,33 @@ export class AppService {
     console.log(`result : ${arr}`);
     return arr;
   }
+
+  @Timeout(1000)
+  selectionSort(arr = [9, 6, 7, 3, 5]) {
+    const swap = (arr, idx1, idx2) => {
+      [arr[idx1], arr[idx2]] = [arr[idx2], arr[idx1]];
+    };
+
+    console.log(`Initial array: ${arr}`);
+    for (let index = 0; index < arr.length; index++) {
+      let lowest = index;
+      console.log(`Start of pass ${index + 1}`);
+      for (let j = index + 1; j < arr.length; j++) {
+        console.log(arr, arr[j], arr[j + 1]);
+        if (arr[lowest] > arr[j]) {
+          lowest = j;
+        }
+      }
+      console.log(`Lowest element index: ${lowest}`);
+      if (index !== lowest) {
+        swap(arr, index, lowest);
+        console.log(`Swapping ${arr[index]} with ${arr[lowest]}: ${arr}`);
+      }
+      console.log(`End of pass ${index + 1}`);
+    }
+    console.log(`result Sorted array: ${arr}`);
+    return arr;
+  }
+
   //#endregion
 }
