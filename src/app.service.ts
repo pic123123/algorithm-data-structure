@@ -112,7 +112,7 @@ export class AppService {
    * 1) https://www.khanacademy.org/computing/computer-science/algorithms/binary-search/a/binary-search
    * 2) https://www.topcoder.com/community/data-science/data-science-tutorials/binary-search
    */
-  @Timeout(1000)
+  //@Timeout(1000)
   binarySearch(arr = [2, 5, 6, 9, 13, 15, 28, 30], num = 15) {
     let low = 0;
     let high = arr.length - 1;
@@ -132,6 +132,42 @@ export class AppService {
     }
 
     return -1; // 값을 찾지 못했으므로 -1을 반환합니다.
+  }
+
+  /**
+   * @alias naive
+   * @descriptionNaive 알고리즘은 문제의 복잡성을 무시하고 간단한 접근 방법을 채택합니다.
+   * 이러한 접근 방식은 대개 문제의 크기가 작거나 입력이 제한적인 경우에 효율적입니다.
+   * 그러나 입력의 크기가 커지면 Naive 알고리즘은 비효율적이며 느려질 수 있습니다.
+   */
+  @Timeout(1000)
+  naiveSearch(arr = [1, 2, 3, 4, 5], target = 3) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === target) {
+        console.log(i);
+        return i; // 값을 찾으면 인덱스를 반환하고 함수 종료
+      }
+    }
+    return -1; // 값을 찾지 못한 경우 -1을 반환
+  }
+
+  @Timeout(1000)
+  naiveStringSearch(str = 'ababababc', pattern = 'ab') {
+    let count = 0;
+    for (let i = 0; i <= str.length - pattern.length; i++) {
+      let match = true;
+      for (let j = 0; j < pattern.length; j++) {
+        if (str[i + j] !== pattern[j]) {
+          match = false;
+          break; // 일치하지 않으면 내부 루프를 중단하고 다음 위치로 이동
+        }
+      }
+      if (match) {
+        count++; // 패턴을 찾으면 카운트를 증가시킴
+      }
+    }
+    console.log(count);
+    return count;
   }
 
   //@Timeout(1000)
