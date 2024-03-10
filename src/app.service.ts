@@ -139,7 +139,7 @@ export class AppService {
    * @description 숫자를 받아 피보나치 수열의 n번째 숫자를 반환하는 fib라는 재귀 함수를 작성하시오. 피보나치 수열은 1, 1로 시작하는 1, 1, 2, 3, 5, 8, ...의 정수의 수열이며, 모든 수는 이전 두 수의 합과 같다는 것을 명심하세요.
    * 수학에서 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다. 처음 여섯 항은 각각 1, 1, 2, 3, 5, 8이다. 편의상 0번째 항을 0으로 두기도 한다.
    */
-  @Timeout(1000)
+  //@Timeout(1000)
   fib(n = 6) {
     console.log(`Calculating fib(${n})`);
     // n이 1 이하이면 n을 반환
@@ -279,6 +279,10 @@ export class AppService {
     return count;
   }
 
+  //#endregion
+
+  //#region 정렬
+
   //@Timeout(1000)
   bublleSort(arr = [8, 1, 2, 3, 4, 5, 6, 7]) {
     let noSwaps;
@@ -325,6 +329,23 @@ export class AppService {
       console.log(`End of pass ${index + 1}`);
     }
     console.log(`result Sorted array: ${arr}`);
+    return arr;
+  }
+
+  @Timeout(1000)
+  insertionSort(arr = [5, 1, 3, 7, 2, 9]) {
+    for (let i = 1; i < arr.length; i++) {
+      const currentValue = arr[i];
+      let j = i - 1;
+
+      while (j >= 0 && arr[j] > currentValue) {
+        arr[j + 1] = arr[j];
+        j--;
+      }
+      console.log(currentValue);
+      arr[j + 1] = currentValue;
+    }
+    console.log(arr);
     return arr;
   }
 
