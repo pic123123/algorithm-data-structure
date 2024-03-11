@@ -332,7 +332,7 @@ export class AppService {
     return arr;
   }
 
-  @Timeout(1000)
+  //@Timeout(1000)
   insertionSort(arr = [5, 1, 3, 7, 2, 9]) {
     for (let i = 1; i < arr.length; i++) {
       const currentValue = arr[i];
@@ -347,6 +347,32 @@ export class AppService {
     }
     console.log(arr);
     return arr;
+  }
+
+  @Timeout(1000)
+  merge(arr1 = [1, 10, 50], arr2 = [2, 14, 99, 100]) {
+    const results = [];
+    let i = 0;
+    let j = 0;
+    while (i < arr1.length && j < arr2.length) {
+      if (arr2[j] > arr1[i]) {
+        results.push(arr1[i]);
+        i++;
+      } else {
+        results.push(arr2[j]);
+        j++;
+      }
+    }
+    while (i < arr1.length) {
+      results.push(arr1[i]);
+      i++;
+    }
+    while (j < arr2.length) {
+      results.push(arr2[j]);
+      j++;
+    }
+    console.log(results);
+    return results;
   }
 
   //#endregion
