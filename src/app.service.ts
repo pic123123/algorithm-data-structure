@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Timeout } from '@nestjs/schedule';
+
 @Injectable()
 export class AppService {
   getHello(): string {
@@ -349,7 +350,7 @@ export class AppService {
     return arr;
   }
 
-  @Timeout(1000)
+  //@Timeout(1000)
   merge(arr1 = [1, 10, 50], arr2 = [2, 14, 99, 100]) {
     const results = [];
     let i = 0;
@@ -375,5 +376,118 @@ export class AppService {
     return results;
   }
 
+  //#endregion
+
+  //#region Stack & Queue & Trees
+  //@Timeout(1000)
+  //자바스크립트에서 스택은 사실 위처럼 별도의 알고리즘 구현 필요 없이 Array의 push()와 pop() 메서드를 사용하여 활용이 가능합
+  stack() {
+    const stack = [];
+    stack.push('google');
+    stack.push('instagram');
+    stack.push('youtube');
+    console.log(stack); //[ 'google', 'instagram', 'youtube' ]
+    stack.pop();
+    console.log(stack); //[ 'google', 'instagram' ] 맨 마지막 youtube를 제거함
+    console.log(stack.pop()); //instagram 맨 마지막 instagram을 제거함
+
+    const stack2 = ['first', 'second', 'third'];
+    stack2.shift();
+    console.log(stack2); //[ 'second', 'third' ] 맨앞을 제거함 이거왜하냐근데 ㅡㅡ;
+    stack2.unshift('fourth');
+    //unshift는 배열의 맨앞에 값을 집어넣음으로써, 모든 인덱스들을 변경하기 때문에 비효율적임
+    console.log(stack2); //[ 'fourth', 'second', 'third' ] 맨앞에 집어넣음
+  }
+
+  //   class Node {
+  //     public value: any;
+  //     public next: Node | null = null;
+
+  //     constructor(value: any) {
+  //         this.value = value;
+  //     }
+  // }
+
+  // class Stack {
+  //     private head: Node | null = null;
+
+  //     // 스택에 요소 추가
+  //     public push(value: any): void {
+  //         let newNode = new Node(value);
+  //         if (this.head) {
+  //             newNode.next = this.head;
+  //         }
+  //         this.head = newNode;
+  //     }
+
+  //     // 스택에서 요소 제거 및 반환
+  //     public pop(): any {
+  //         if (!this.head) return null;
+  //         let popValue = this.head.value;
+  //         this.head = this.head.next;
+  //         return popValue;
+  //     }
+
+  //     // 스택의 최상위 요소 확인
+  //     public peek(): any {
+  //         if (!this.head) return null;
+  //         return this.head.value;
+  //     }
+  // }
+
+  //@Timeout(1000)
+  queue() {
+    const q = [];
+    q.unshift('first');
+    q.unshift('second');
+    q.unshift('third');
+    console.log(q); //[ 'third', 'second', 'first' ]
+    console.log(q.pop()); //FIFO - first 삭제
+  }
+
+  // class Node {
+  //   public value: any;
+  //   public next: Node | null = null;
+
+  //   constructor(value: any) {
+  //     this.value = value;
+  //   }
+  // }
+
+  // class Queue {
+  //   private head: Node | null = null;
+  //   private tail: Node | null = null;
+
+  //   public enqueue(value: any): void {
+  //     const newNode = new Node(value);
+  //     if (!this.tail) {
+  //       this.head = this.tail = newNode;
+  //     } else {
+  //       this.tail.next = newNode;
+  //       this.tail = newNode;
+  //     }
+  //   }
+
+  //   public dequeue(): any {
+  //     if (!this.head) return null;
+  //     const value = this.head.value;
+  //     this.head = this.head.next;
+  //     if (!this.head) {
+  //       this.tail = null;
+  //     }
+  //     return value;
+  //   }
+
+  //   // 큐가 비어있는지 확인하는 메소드
+  //   public isEmpty(): boolean {
+  //     return this.head === null;
+  //   }
+
+  //   // 큐의 맨 앞 요소를 반환하는 메소드 (제거하지 않음)
+  //   public peek(): any {
+  //     if (!this.head) return null;
+  //     return this.head.value;
+  //   }
+  // }
   //#endregion
 }
