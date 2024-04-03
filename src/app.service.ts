@@ -1,6 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { Timeout } from '@nestjs/schedule';
 
+/**
+ * @alias 트리의 기본 구성 요소인 노드 클래스를 정의합니다.
+ */
+class TreeNode {
+  value: number;
+  left: TreeNode | null = null;
+  right: TreeNode | null = null;
+
+  constructor(value: number) {
+    this.value = value;
+  }
+}
+
+/**
+ * @alias TreeService 인터페이스는 트리에 대한 기본적인 동작을 정의합니다.
+ */
+interface TreeService {
+  insert(value: number): void;
+  delete(value: number): void;
+  search(value: number): TreeNode | null;
+}
+
 @Injectable()
 export class AppService {
   getHello(): string {
@@ -135,25 +157,25 @@ export class AppService {
     return result;
   }
 
-  /**
-   * @alias 코딩연습14 : fib
-   * @description 숫자를 받아 피보나치 수열의 n번째 숫자를 반환하는 fib라는 재귀 함수를 작성하시오. 피보나치 수열은 1, 1로 시작하는 1, 1, 2, 3, 5, 8, ...의 정수의 수열이며, 모든 수는 이전 두 수의 합과 같다는 것을 명심하세요.
-   * 수학에서 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다. 처음 여섯 항은 각각 1, 1, 2, 3, 5, 8이다. 편의상 0번째 항을 0으로 두기도 한다.
-   */
-  //@Timeout(1000)
-  fib(n = 6) {
-    console.log(`Calculating fib(${n})`);
-    // n이 1 이하이면 n을 반환
-    if (n <= 1) {
-      console.log(`Base case reached. Returning ${n}`);
-      return n;
-    }
-    // n번째 피보나치 수를 재귀적으로 계산하여 반환
-    console.log(`Recursively calculating fib(${n - 1}) + fib(${n - 2})`);
-    const result = this.fib(n - 1) + this.fib(n - 2);
-    console.log(`Returning ${result}`);
-    return result;
-  }
+  // /**
+  //  * @alias 코딩연습14 : fib
+  //  * @description 숫자를 받아 피보나치 수열의 n번째 숫자를 반환하는 fib라는 재귀 함수를 작성하시오. 피보나치 수열은 1, 1로 시작하는 1, 1, 2, 3, 5, 8, ...의 정수의 수열이며, 모든 수는 이전 두 수의 합과 같다는 것을 명심하세요.
+  //  * 수학에서 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다. 처음 여섯 항은 각각 1, 1, 2, 3, 5, 8이다. 편의상 0번째 항을 0으로 두기도 한다.
+  //  */
+  // //@Timeout(1000)
+  // fib(n = 6) {
+  //   console.log(`Calculating fib(${n})`);
+  //   // n이 1 이하이면 n을 반환
+  //   if (n <= 1) {
+  //     console.log(`Base case reached. Returning ${n}`);
+  //     return n;
+  //   }
+  //   // n번째 피보나치 수를 재귀적으로 계산하여 반환
+  //   console.log(`Recursively calculating fib(${n - 1}) + fib(${n - 2})`);
+  //   const result = this.fib(n - 1) + this.fib(n - 2);
+  //   console.log(`Returning ${result}`);
+  //   return result;
+  // }
 
   //#endregion
 
@@ -489,5 +511,126 @@ export class AppService {
   //     return this.head.value;
   //   }
   // }
+
+  private root: TreeNode | null = null;
+
+  insert(value: number): void {
+    this.root = this.insertRec(this.root, value);
+  }
+
+  private insertRec(root: TreeNode | null, value: number): TreeNode {
+    if (root === null) {
+      return new TreeNode(value);
+    }
+    if (value < root.value) {
+      root.left = this.insertRec(root.left, value);
+    } else if (value > root.value) {
+      root.right = this.insertRec(root.right, value);
+    }
+    return root;
+  }
+
+  delete(value: number): void {
+    this.root = this.deleteRec(this.root, value);
+  }
+
+  private deleteRec(root: TreeNode | null, value: number): TreeNode | null {
+    if (root === null) {
+      return null;
+    }
+
+    if (value < root.value) {
+      root.left = this.deleteRec(root.left, value);
+    } else if (value > root.value) {
+      root.right = this.deleteRec(root.right, value);
+    } else {
+      if (root.left === null) {
+        return root.right;
+      } else if (root.right === null) {
+        return root.left;
+      }
+
+      root.value = this.minValue(root.right);
+      root.right = this.deleteRec(root.right, root.value);
+    }
+
+    return root;
+  }
+
+  private minValue(root: TreeNode): number {
+    let minv = root.value;
+    while (root.left !== null) {
+      minv = root.left.value;
+      root = root.left;
+    }
+    return minv;
+  }
+
+  search(value: number): TreeNode | null {
+    return this.searchRec(this.root, value);
+  }
+
+  private searchRec(root: TreeNode | null, value: number): TreeNode | null {
+    if (root === null || root.value === value) {
+      return root;
+    }
+
+    if (value < root.value) {
+      return this.searchRec(root.left, value);
+    } else {
+      return this.searchRec(root.right, value);
+    }
+  }
+
+  //#endregion
+
+  //#region Dynamic Programming
+  /**
+   * @alias 코딩연습14 : fib
+   * @description 숫자를 받아 피보나치 수열의 n번째 숫자를 반환하는 fib라는 재귀 함수를 작성하시오. 피보나치 수열은 1, 1로 시작하는 1, 1, 2, 3, 5, 8, ...의 정수의 수열이며, 모든 수는 이전 두 수의 합과 같다는 것을 명심하세요.
+   * 수학에서 피보나치 수(영어: Fibonacci numbers)는 첫째 및 둘째 항이 1이며 그 뒤의 모든 항은 바로 앞 두 항의 합인 수열이다. 처음 여섯 항은 각각 1, 1, 2, 3, 5, 8이다. 편의상 0번째 항을 0으로 두기도 한다.
+   */
+  //@Timeout(1000)
+  fib(n = 6) {
+    console.log(`Calculating fib(${n})`);
+    // n이 1 이하이면 n을 반환
+    if (n <= 1) {
+      console.log(`Base case reached. Returning ${n}`);
+      return n;
+    }
+    // n번째 피보나치 수를 재귀적으로 계산하여 반환
+    console.log(`Recursively calculating fib(${n - 1}) + fib(${n - 2})`);
+    const result = this.fib(n - 1) + this.fib(n - 2);
+    console.log(`Returning ${result}`);
+    return result;
+  }
+
+  //@Timeout(1000)
+  memoFib(n = 6, memo = {}) {
+    // 이미 계산된 값이 메모에 있으면 바로 반환
+    if (n in memo) return memo[n];
+    // n이 1 이하이면 n을 반환
+    if (n <= 1) return n;
+    // 메모에 계산 결과를 저장하면서 재귀 호출
+    memo[n] = this.memoFib(n - 1, memo) + this.memoFib(n - 2, memo);
+    console.log(memo[n]);
+    return memo[n];
+  }
+
+  @Timeout(1000)
+  fibTabulation(n = 6) {
+    // 기저 사례를 처리하기 위한 배열 초기화// fib(0) = 0, fib(1) = 1
+    const table = [0, 1];
+
+    // 2부터 n까지 순회하면서 피보나치 수를 계산하여 테이블에 저장
+    for (let i = 2; i <= n; i++) {
+      table[i] = table[i - 1] + table[i - 2];
+    }
+
+    // n번째 피보나치 수 반환
+    console.log(table[n]);
+    return table[n];
+  }
+
   //#endregion
 }
